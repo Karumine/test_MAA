@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จำนวนเฉพาะและไม่เฉพาะ</title>
+</head>
+<body>
+    <h2>แสดงจำนวนเฉพาะและไม่เฉพาะ</h2>
+    <label for="inputNumber">กรอกจำนวนตัวเลข: </label>
+    <input type="text" id="inputNumber" placeholder="ใส่ตัวเลข">
+    <button onclick="showNumbers()">แสดงผล</button>
+
+    <h3>ผลลัพธ์:</h3>
+    <p id="result"></p>
+
+    <script>
+        function isPrime(num) {
+            if (num <= 1) return false; // เลขที่น้อยกว่าหรือเท่ากับ 1 ไม่ใช่จำนวนเฉพาะ
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) return false; // ถาหารแล้วลงตัวแสดงว่าไม่ใช่จำนวนเฉพาะ
+            }
+            return true;
+        }
+
+        function showNumbers() {
+            let input = document.getElementById("inputNumber").value;
+            // ตรวจสอบว่า input เป็นตัวเลข
+            if (!/^\d+$/.test(input)) {
+                document.getElementById("result").textContent = "Error"; // ถ้าไม่ใช่ตัวเลขทั้งหมดให้แสดง Error
+                return;
+            }
+            
+            let number = parseInt(input);
+
+            // ตรวจสอบว่าค่าตัวเลขไม่เกิน 50,000
+            if (number > 50000) {
+                document.getElementById("result").textContent = "Error"; // ถ้าเกิน 50,000 ให้แสดง Error
+                return;
+            }
+
+            let primes = [];
+            let nonPrimes = [];
+            for (let i = 1; i <= number; i++) {
+                if (isPrime(i)) {
+                    primes.push(i);
+                } else {
+                    nonPrimes.push(i);
+                }
+            }
+
+            // แสดงผลลัพธ์
+            document.getElementById("result").textContent = `
+                number: ${nonPrimes.join(' ')}
+                prime number: ${primes.join(' ')}
+            `;
+        }
+    </script>
+</body>
+</html>

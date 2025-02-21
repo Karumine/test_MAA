@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำนวณค่าน้ำประปา</title>
+</head>
+<body>
+    <h2>คำนวณค่าน้ำประปา</h2>
+    <label for="units">กรอกจำนวนหน่วยน้ำที่ใช้:</label>
+    <input type="number" id="units" placeholder="จำนวนหน่วยน้ำ" min="1">
+    <button onclick="calculateBill()">คำนวณ</button>
+
+    <h3>ผลลัพธ์:</h3>
+    <p id="result"></p>
+
+    <script>
+        function calculateWaterBill(units) {
+            const fee = 50; // ค่าธรรมเนียม
+            let total = fee;
+
+            if (units <= 10) {
+                total += units * 5; // อัตรา 5 บาท/หน่วย
+            } else if (units <= 20) {
+                total += 10 * 5 + (units - 10) * 10; // อัตรา 5 บาทสำหรับ 10 หน่วยแรก, 10 บาทสำหรับหน่วยที่เกิน
+            } else if (units <= 30) {
+                total += 10 * 5 + 10 * 10 + (units - 20) * 30; // อัตรา 5 บาท, 10 บาท, 30 บาท
+            } else {
+                total += 10 * 5 + 10 * 10 + 10 * 30 + (units - 30) * 50; // อัตรา 5 บาท, 10 บาท, 30 บาท, 50 บาท
+            }
+
+            return total;
+        }
+
+        function calculateBill() {
+            let unitsUsed = document.getElementById("units").value; // รับค่าจาก input
+            unitsUsed = parseInt(unitsUsed);
+
+            if (isNaN(unitsUsed) || unitsUsed < 1) {
+                document.getElementById("result").textContent = "กรุณากรอกจำนวนหน่วยที่ถูกต้อง!";
+                return;
+            }
+
+            let totalBill = calculateWaterBill(unitsUsed);
+            document.getElementById("result").textContent = `ค่าน้ำประปาสำหรับ ${unitsUsed} หน่วย คือ: ${totalBill} บาท`;
+        }
+    </script>
+</body>
+</html>
